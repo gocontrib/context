@@ -1,4 +1,4 @@
-package gohttp
+package context
 
 import (
 	"net/http"
@@ -7,12 +7,12 @@ import (
 
 	. "github.com/franela/go-supertest"
 	. "github.com/franela/goblin"
+	"github.com/gohttp/app"
 	"github.com/gorilla/context"
 	. "github.com/onsi/gomega"
-	"github.com/sergeyt/app"
 )
 
-func TestWith(t *testing.T) {
+func TestContext(t *testing.T) {
 
 	g := Goblin(t)
 
@@ -43,7 +43,7 @@ func TestWith(t *testing.T) {
 			const value = "value"
 
 			a := app.New()
-			a.Use(Context(key, value))
+			a.Use(New(key, value))
 			a.Get("/", http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 				v, ok := context.Get(req, key).(string)
 				if ok {

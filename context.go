@@ -1,24 +1,24 @@
-package gohttp
+package context
 
 import "net/http"
 import "github.com/gorilla/context"
 
-// Context middleware to pass specified map or key-value pairs to next handlers
-func Context(args ...interface{}) func(http.Handler) http.Handler {
+// New creates context middleware to pass specified map or key-value pairs to next handlers
+func New(args ...interface{}) func(http.Handler) http.Handler {
 	ctx := mapargs(args...)
-	return func(h http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 			// set request context
 			for key := range ctx {
-				context.Set(req, key, ctx[key])
+				context.Set(r, key, ctx[key])
 			}
 
 			// serve
-			h.ServeHTTP(w, req)
+			next.ServeHTTP(w, r)
 
 			// clear request context
-			context.Clear(req)
+			context.Clear(r)
 		})
 	}
 }
