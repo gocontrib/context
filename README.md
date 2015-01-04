@@ -1,4 +1,3 @@
-gohttp
-======
+# context
 
-Middlewares for github.com/gohttp/app
+Context middleware for [gohttp/app](https://github.com/gohttp/app)
