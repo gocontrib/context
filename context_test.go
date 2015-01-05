@@ -8,7 +8,6 @@ import (
 	. "github.com/franela/go-supertest"
 	. "github.com/franela/goblin"
 	"github.com/gohttp/app"
-	"github.com/gorilla/context"
 	. "github.com/onsi/gomega"
 )
 
@@ -45,7 +44,7 @@ func TestContext(t *testing.T) {
 			a := app.New()
 			a.Use(New(key, value))
 			a.Get("/", http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-				v, ok := context.Get(req, key).(string)
+				v, ok := Get(req, key).(string)
 				if ok {
 					w.Write([]byte(v))
 				} else {

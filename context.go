@@ -23,6 +23,16 @@ func New(args ...interface{}) func(http.Handler) http.Handler {
 	}
 }
 
+// Set stores a value for a given key in a given request.
+func Set(r *http.Request, key, val interface{}) {
+	context.Set(r, key, val)
+}
+
+// Get returns a value stored for a given key in a given request.
+func Get(r *http.Request, key interface{}) interface{} {
+	return context.Get(r, key)
+}
+
 func mapargs(args ...interface{}) map[interface{}]interface{} {
 	var (
 		i   = 0
