@@ -13,6 +13,8 @@ import (
 	"sync/atomic"
 )
 
+const keyRequestID = "request-id"
+
 var (
 	reqidPrefix  string
 	reqidCounter uint64
@@ -62,4 +64,22 @@ func RequestID(h http.Handler) http.Handler {
 	}
 
 	return http.HandlerFunc(fn)
+}
+
+// GetRequestID returns id of request.
+func GetRequestID(r *http.Request) string {
+	var v = Get(r, keyRequestID)
+	var s, ok = v.(string)
+	if ok {
+		return s
+	}
+	return ""
+}
+
+// SetRequestID assigns request id.
+func SetRequestID(r *http.Request, id string) {
+	r.Header.Set("X-Request-Id", id)
+
+	// store id in request context also
+	Set(r, keyRequestID, id)
 }

@@ -33,23 +33,6 @@ func Get(r *http.Request, key interface{}) interface{} {
 	return context.Get(r, key)
 }
 
-const keyRequestID = "request-id"
-
-// GetRequestID returns id of request.
-func GetRequestID(r *http.Request) string {
-	var v = Get(r, keyRequestID)
-	var s, ok = v.(string)
-	if ok {
-		return s
-	}
-	return ""
-}
-
-// SetRequestID assigns request id.
-func SetRequestID(r *http.Request, id string) {
-	Set(r, keyRequestID, id)
-}
-
 func mapargs(args ...interface{}) map[interface{}]interface{} {
 	var (
 		i   = 0
